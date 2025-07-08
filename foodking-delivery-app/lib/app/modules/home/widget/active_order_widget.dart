@@ -25,272 +25,287 @@ class ActiveOrder extends StatefulWidget {
 class _ActiveOrderState extends State<ActiveOrder> {
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<HomeController>(
-      builder:
-          (homeController) => Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("ACTIVE_ORDERS".tr, style: fontMedium),
-              homeController.activeOrderList.isNotEmpty
-                  ? ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
-                    itemCount: homeController.activeOrderList.length,
-                    itemBuilder: (BuildContext context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(top: 12),
-                        child: Row(
-                          children: [
-                            InkWell(
-                              child: Container(
-                                height: 156.h,
-                                width: 328.w,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(16.r),
-                                  color: Colors.white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: AppColor.itembg.withValues(
-                                        alpha: 0.8,
-                                      ),
-                                      offset: const Offset(0.0, 0.0),
-                                      blurRadius: 15.0,
-                                      spreadRadius: 0.5,
-                                    ), //BoxShadow
-                                    //BoxShadow
-                                  ],
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12),
-                                  child: Row(
-                                    children: [
-                                      SizedBox(width: 10.w),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+    return GetBuilder<LocationController>(
+      builder: (locationController) {
+        if (locationController.isLoading) {
+          return Center(child: CircularProgressIndicator());
+        }
+        return GetBuilder<HomeController>(
+          builder:
+              (homeController) => Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("ACTIVE_ORDERS".tr, style: fontMedium),
+                  homeController.activeOrderList.isNotEmpty
+                      ? ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        itemCount: homeController.activeOrderList.length,
+                        itemBuilder: (BuildContext context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 12),
+                            child: Row(
+                              children: [
+                                InkWell(
+                                  child: Container(
+                                    height: 156.h,
+                                    width: 328.w,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(16.r),
+                                      color: Colors.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: AppColor.itembg.withValues(
+                                            alpha: 0.8,
+                                          ),
+                                          offset: const Offset(0.0, 0.0),
+                                          blurRadius: 15.0,
+                                          spreadRadius: 0.5,
+                                        ), //BoxShadow
+                                        //BoxShadow
+                                      ],
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(12),
+                                      child: Row(
                                         children: [
-                                          Row(
-                                            children: [
-                                              Text(
-                                                "ORDER_ID".tr,
-                                                style: TextStyle(
-                                                  fontSize: 14.sp,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontFamily: "Rubik",
-                                                ),
-                                              ),
-                                              SizedBox(width: 5.w),
-                                              Text(
-                                                "#${homeController.activeOrderList[index].orderSerialNo}",
-                                                style: fontRegularBold,
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                              SizedBox(width: 16.w),
-                                              if (homeController
-                                                      .activeOrderList[index]
-                                                      .status ==
-                                                  1)
-                                                orderStatus(
-                                                  homeController
-                                                      .activeOrderList[index]
-                                                      .statusName,
-                                                  AppColor.pending,
-                                                  AppColor.pendingText,
-                                                ),
-                                              if (homeController
-                                                      .activeOrderList[index]
-                                                      .status ==
-                                                  4)
-                                                orderStatus(
-                                                  homeController
-                                                      .activeOrderList[index]
-                                                      .statusName,
-                                                  AppColor.preparing,
-                                                  AppColor.preparingText,
-                                                ),
-                                              if (homeController
-                                                      .activeOrderList[index]
-                                                      .status ==
-                                                  7)
-                                                orderStatus(
-                                                  homeController
-                                                      .activeOrderList[index]
-                                                      .statusName,
-                                                  AppColor.preparing,
-                                                  AppColor.preparingText,
-                                                ),
-                                              if (homeController
-                                                      .activeOrderList[index]
-                                                      .status ==
-                                                  8)
-                                                orderStatus(
-                                                  homeController
-                                                      .activeOrderList[index]
-                                                      .statusName,
-                                                  AppColor.preparing,
-                                                  AppColor.preparingText,
-                                                ),
-                                              if (homeController
-                                                      .activeOrderList[index]
-                                                      .status ==
-                                                  10)
-                                                orderStatus(
-                                                  homeController
-                                                      .activeOrderList[index]
-                                                      .statusName,
-                                                  AppColor.ontheway,
-                                                  AppColor.darkBlue,
-                                                ),
-                                            ],
-                                          ),
-                                          Text(
-                                            homeController
-                                                .activeOrderList[index]
-                                                .orderDatetime!,
-                                            style: TextStyle(
-                                              fontSize: 12.sp,
-                                              fontFamily: 'Rubik',
-                                              fontWeight: FontWeight.w400,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                          SizedBox(height: 16.h),
-                                          Row(
+                                          SizedBox(width: 10.w),
+                                          Column(
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.center,
+                                                CrossAxisAlignment.start,
                                             children: [
-                                              SvgPicture.asset(
-                                                Images.iconLocation,
-                                                width: 18.w,
-                                                height: 18.h,
-                                                fit: BoxFit.contain,
-                                              ),
-                                              SizedBox(width: 4.w),
-                                              SizedBox(
-                                                width: 270,
-                                                child: Text(
-                                                  '${homeController.activeOrderList[index].orderAddress?.apartment}, ${homeController.activeOrderList[index].orderAddress?.address ?? ""}',
-                                                  style: TextStyle(
-                                                    fontSize: 12.sp,
-                                                    fontFamily: 'Rubik',
-                                                    fontWeight: FontWeight.w400,
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    "ORDER_ID".tr,
+                                                    style: TextStyle(
+                                                      fontSize: 14.sp,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontFamily: "Rubik",
+                                                    ),
                                                   ),
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  maxLines: 2,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                              top: 16,
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                InkWell(
-                                                  onTap: () {
-                                                    homeController.getOrderDetails(
+                                                  SizedBox(width: 5.w),
+                                                  Text(
+                                                    "#${homeController.activeOrderList[index].orderSerialNo}",
+                                                    style: fontRegularBold,
+                                                    maxLines: 1,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  ),
+                                                  SizedBox(width: 16.w),
+                                                  if (homeController
+                                                          .activeOrderList[index]
+                                                          .status ==
+                                                      1)
+                                                    orderStatus(
                                                       homeController
                                                           .activeOrderList[index]
-                                                          .id!,
-                                                    );
-                                                  },
-                                                  child: Container(
-                                                    height: 36.h,
-                                                    width: 140.w,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                            16,
-                                                          ),
-                                                      border: Border.all(
-                                                        color: AppColor.itembg,
-                                                      ),
+                                                          .statusName,
+                                                      AppColor.pending,
+                                                      AppColor.pendingText,
                                                     ),
-                                                    child: Center(
-                                                      child: Text(
-                                                        "SEE_DETAILS".tr,
-                                                        style: fontRegularBold,
+                                                  if (homeController
+                                                          .activeOrderList[index]
+                                                          .status ==
+                                                      4)
+                                                    orderStatus(
+                                                      homeController
+                                                          .activeOrderList[index]
+                                                          .statusName,
+                                                      AppColor.preparing,
+                                                      AppColor.preparingText,
+                                                    ),
+                                                  if (homeController
+                                                          .activeOrderList[index]
+                                                          .status ==
+                                                      7)
+                                                    orderStatus(
+                                                      homeController
+                                                          .activeOrderList[index]
+                                                          .statusName,
+                                                      AppColor.preparing,
+                                                      AppColor.preparingText,
+                                                    ),
+                                                  if (homeController
+                                                          .activeOrderList[index]
+                                                          .status ==
+                                                      8)
+                                                    orderStatus(
+                                                      homeController
+                                                          .activeOrderList[index]
+                                                          .statusName,
+                                                      AppColor.preparing,
+                                                      AppColor.preparingText,
+                                                    ),
+                                                  if (homeController
+                                                          .activeOrderList[index]
+                                                          .status ==
+                                                      10)
+                                                    orderStatus(
+                                                      homeController
+                                                          .activeOrderList[index]
+                                                          .statusName,
+                                                      AppColor.ontheway,
+                                                      AppColor.darkBlue,
+                                                    ),
+                                                ],
+                                              ),
+                                              Text(
+                                                homeController
+                                                    .activeOrderList[index]
+                                                    .orderDatetime!,
+                                                style: TextStyle(
+                                                  fontSize: 12.sp,
+                                                  fontFamily: 'Rubik',
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Colors.grey,
+                                                ),
+                                              ),
+                                              SizedBox(height: 16.h),
+                                              Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  SvgPicture.asset(
+                                                    Images.iconLocation,
+                                                    width: 18.w,
+                                                    height: 18.h,
+                                                    fit: BoxFit.contain,
+                                                  ),
+                                                  SizedBox(width: 4.w),
+                                                  SizedBox(
+                                                    width: 270,
+                                                    child: Text(
+                                                      '${homeController.activeOrderList[index].orderAddress?.apartment}, ${homeController.activeOrderList[index].orderAddress?.address ?? ""}',
+                                                      style: TextStyle(
+                                                        fontSize: 12.sp,
+                                                        fontFamily: 'Rubik',
+                                                        fontWeight:
+                                                            FontWeight.w400,
                                                       ),
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      maxLines: 2,
                                                     ),
                                                   ),
+                                                ],
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                  top: 16,
                                                 ),
-                                                SizedBox(width: 12.w),
-                                                InkWell(
-                                                  onTap: () {
-                                                    Get.find<
-                                                          LocationController
-                                                        >()
-                                                        .getCurrentLocation();
-                                                    _checkPermission(() async {
-                                                      if (await MapLauncher.isMapAvailable(
-                                                            MapType.google,
-                                                          ) !=
-                                                          null) {
-                                                        MapLauncher.showDirections(
-                                                          mapType:
-                                                              MapType.google,
-                                                          destination: Coords(
-                                                            double.parse(
+                                                child: Row(
+                                                  children: [
+                                                    InkWell(
+                                                      onTap: () {
+                                                        homeController
+                                                            .getOrderDetails(
                                                               homeController
                                                                   .activeOrderList[index]
-                                                                  .orderAddress!
-                                                                  .latitude
-                                                                  .toString(),
-                                                            ),
-                                                            double.parse(
-                                                              homeController
-                                                                  .activeOrderList[index]
-                                                                  .orderAddress!
-                                                                  .longitude
-                                                                  .toString(),
-                                                            ),
+                                                                  .id!,
+                                                            );
+                                                      },
+                                                      child: Container(
+                                                        height: 36.h,
+                                                        width: 140.w,
+                                                        decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                16,
+                                                              ),
+                                                          border: Border.all(
+                                                            color:
+                                                                AppColor.itembg,
                                                           ),
-                                                        );
-                                                      }
-                                                    });
-                                                  },
-                                                  child: Container(
-                                                    height: 36.h,
-                                                    width: 140.w,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                            16,
+                                                        ),
+                                                        child: Center(
+                                                          child: Text(
+                                                            "SEE_DETAILS".tr,
+                                                            style:
+                                                                fontRegularBold,
                                                           ),
-                                                      color:
-                                                          AppColor.primaryColor,
-                                                    ),
-                                                    child: Center(
-                                                      child: Text(
-                                                        "GET_DIRECTION".tr,
-                                                        style:
-                                                            fontRegularBoldWhite,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
+                                                    SizedBox(width: 12.w),
+                                                    InkWell(
+                                                      onTap: () {
+                                                        Get.find<
+                                                              LocationController
+                                                            >()
+                                                            .getCurrentLocation();
+                                                        _checkPermission(() async {
+                                                          if (await MapLauncher.isMapAvailable(
+                                                                MapType.google,
+                                                              ) !=
+                                                              null) {
+                                                            MapLauncher.showDirections(
+                                                              mapType:
+                                                                  MapType
+                                                                      .google,
+                                                              destination: Coords(
+                                                                double.parse(
+                                                                  homeController
+                                                                      .activeOrderList[index]
+                                                                      .orderAddress!
+                                                                      .latitude
+                                                                      .toString(),
+                                                                ),
+                                                                double.parse(
+                                                                  homeController
+                                                                      .activeOrderList[index]
+                                                                      .orderAddress!
+                                                                      .longitude
+                                                                      .toString(),
+                                                                ),
+                                                              ),
+                                                            );
+                                                          }
+                                                        });
+                                                      },
+                                                      child: Container(
+                                                        height: 36.h,
+                                                        width: 140.w,
+                                                        decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                16,
+                                                              ),
+                                                          color:
+                                                              AppColor
+                                                                  .primaryColor,
+                                                        ),
+                                                        child: Center(
+                                                          child: Text(
+                                                            "GET_DIRECTION".tr,
+                                                            style:
+                                                                fontRegularBoldWhite,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       ),
-                                    ],
+                                    ),
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
-                          ],
-                        ),
-                      );
-                    },
-                  )
-                  : const EmptyActiveOrder(),
-            ],
-          ),
+                          );
+                        },
+                      )
+                      : const EmptyActiveOrder(),
+                ],
+              ),
+        );
+      },
     );
   }
 
