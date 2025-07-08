@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
 class APIList {
-  static String baseUrl = "https://demo.foodking.dev";
+  static String baseUrl = "http://phinam.hopto.org";
   static String? mapApiKey = "AIzaSyB3S4fcKMcU-Ll9RSPkCiwdk1jXPmrTC_c";
   static String? licenseCode = "b6d68vy2-m7g5-20r0-5275-h103w73453q120";
   static String? paymentUrl = "$baseUrl/payment/";
