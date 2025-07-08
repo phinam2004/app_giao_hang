@@ -17,11 +17,12 @@ class Server {
   }
 
   getRequest({String? endPoint}) async {
+    if (endPoint == null) return null;
     HttpClient client = HttpClient();
     try {
       client.badCertificateCallback =
           ((X509Certificate cert, String host, int port) => true);
-      return await http.get(Uri.parse(endPoint!), headers: _getHttpHeaders());
+      return await http.get(Uri.parse(endPoint), headers: _getHttpHeaders());
     } catch (error) {
       return null;
     } finally {
@@ -30,12 +31,13 @@ class Server {
   }
 
   getRequestWithoutToken({String? endPoint}) async {
+    if (endPoint == null) return null;
     HttpClient client = HttpClient();
     try {
       client.badCertificateCallback =
           ((X509Certificate cert, String host, int port) => true);
       return await http.get(
-        Uri.parse(endPoint!),
+        Uri.parse(endPoint),
         headers: _getHttpHeadersNotToken(),
       );
     } catch (error) {
@@ -46,12 +48,13 @@ class Server {
   }
 
   postRequest({String? endPoint, String? body}) async {
+    if (endPoint == null) return null;
     HttpClient client = HttpClient();
     try {
       client.badCertificateCallback =
           ((X509Certificate cert, String host, int port) => true);
       return await http.post(
-        Uri.parse(endPoint!),
+        Uri.parse(endPoint),
         headers: getAuthHeaders(),
         body: body,
       );
@@ -63,12 +66,13 @@ class Server {
   }
 
   postRequestWithToken({String? endPoint, String? body}) async {
+    if (endPoint == null) return null;
     HttpClient client = HttpClient();
     try {
       client.badCertificateCallback =
           ((X509Certificate cert, String host, int port) => true);
       return await http.post(
-        Uri.parse(endPoint!),
+        Uri.parse(endPoint),
         headers: _getHttpHeaders(),
         body: body,
       );
@@ -80,12 +84,13 @@ class Server {
   }
 
   putRequest({String? endPoint, String? body}) async {
+    if (endPoint == null) return null;
     HttpClient client = HttpClient();
     try {
       client.badCertificateCallback =
           ((X509Certificate cert, String host, int port) => true);
       return await http.put(
-        Uri.parse(endPoint!),
+        Uri.parse(endPoint),
         headers: _getHttpHeaders(),
         body: body,
       );

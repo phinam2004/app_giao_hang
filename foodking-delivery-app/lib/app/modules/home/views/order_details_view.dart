@@ -140,15 +140,17 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                                               destination: Coords(
                                                 double.parse(
                                                   homeController
-                                                      .orderDetailsData
-                                                      .orderAddress!
-                                                      .latitude!,
+                                                          .orderDetailsData
+                                                          .orderAddress
+                                                          ?.latitude ??
+                                                      '0',
                                                 ),
                                                 double.parse(
                                                   homeController
-                                                      .orderDetailsData
-                                                      .orderAddress!
-                                                      .longitude!,
+                                                          .orderDetailsData
+                                                          .orderAddress
+                                                          ?.longitude ??
+                                                      '0',
                                                 ),
                                               ),
                                             );
@@ -719,7 +721,9 @@ Widget customerInformationSection() {
                       children: [
                         Text("CUSTOMER".tr, style: fontProfileLite),
                         Text(
-                          homeController.orderDetailsData.user!.name.toString(),
+                          homeController.orderDetailsData.user?.name
+                                  ?.toString() ??
+                              '',
                           style: fontMedium,
                         ),
                       ],
@@ -730,7 +734,7 @@ Widget customerInformationSection() {
               GestureDetector(
                 onTap: () async {
                   final call = Uri.parse(
-                    'tel:${Get.find<SplashController>().countryInfoData.callingCode! + homeController.orderDetailsData.user!.phone.toString()}',
+                    'tel:${Get.find<SplashController>().countryInfoData.callingCode ?? ''}${homeController.orderDetailsData.user?.phone?.toString() ?? ''}',
                   );
                   if (await canLaunchUrl(call)) {
                     launchUrl(call);
@@ -801,8 +805,9 @@ Widget paymentInfo() {
                   ),
                 if (homeController.orderDetailsData.transaction != null)
                   Text(
-                    homeController.orderDetailsData.transaction!.paymentMethod
-                        .toString(),
+                    homeController.orderDetailsData.transaction?.paymentMethod
+                            ?.toString() ??
+                        '',
                     style: TextStyle(
                       fontFamily: "Rubik",
                       fontSize: 12.sp,
@@ -875,12 +880,16 @@ Widget addressSection() {
                   SizedBox(width: 10.w),
                   Flexible(
                     child: Text(
-                      homeController.orderDetailsData.orderAddress!.apartment
-                              .toString() +
-                          "," +
-                          " " +
-                          homeController.orderDetailsData.orderAddress!.address
-                              .toString(),
+                      homeController.orderDetailsData.orderAddress?.apartment
+                              ?.toString() ??
+                          '' +
+                              ", " +
+                              (homeController
+                                      .orderDetailsData
+                                      .orderAddress
+                                      ?.address
+                                      ?.toString() ??
+                                  ''),
                       style: fontRegular,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 3,
@@ -959,14 +968,11 @@ Widget orderDetailsVariationSection(int i) {
 
 Widget orderItemInstructionSection(int i) {
   final homeController = Get.find<HomeController>();
+  final instruction =
+      homeController.orderDetailsData.orderItems?[i].instruction;
   return Column(
     children: [
-      homeController.orderDetailsData.orderItems![i].instruction != null &&
-              homeController
-                  .orderDetailsData
-                  .orderItems![i]
-                  .instruction!
-                  .isNotEmpty
+      instruction != null && instruction.isNotEmpty
           ? Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -981,8 +987,7 @@ Widget orderItemInstructionSection(int i) {
               SizedBox(
                 width: Get.width - 140,
                 child: Text(
-                  homeController.orderDetailsData.orderItems![i].instruction
-                      .toString(),
+                  instruction.toString(),
                   style: TextStyle(
                     fontFamily: 'Rubik',
                     fontSize: 12.sp,
