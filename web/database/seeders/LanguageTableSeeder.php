@@ -65,5 +65,17 @@ class LanguageTableSeeder extends Seeder
         if (file_exists(public_path('/images/language/arabic.png'))) {
             $arabicLanguage->addMedia(public_path('/images/language/arabic.png'))->preservingOriginal()->toMediaCollection('language');
         }
+
+        $vietnameseLanguageArray = [
+            'name'              => 'Vietnamese',
+            'code'              => 'vn',
+            'display_mode'      => DisplayMode::LTR,
+            'status'            => Status::ACTIVE
+        ];
+
+        $vietnameseLanguage = Language::create($vietnameseLanguageArray);
+        if (file_exists(public_path('/images/language/vietnamese.png'))) {
+            $vietnameseLanguage->addMedia(public_path('/images/language/vietnamese.png'))->preservingOriginal()->toMediaCollection('language');
+        }
     }
 }
