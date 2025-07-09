@@ -10,24 +10,23 @@ BranchModel branchModelFromJson(String str) =>
 String branchModelToJson(BranchModel data) => json.encode(data.toJson());
 
 class BranchModel {
-  BranchModel({
-    this.data,
-  });
+  BranchModel({this.data});
 
   List<BranchData>? data;
 
   factory BranchModel.fromJson(Map<String, dynamic> json) => BranchModel(
-        data: json["data"] == null
+    data:
+        json["data"] == null || json["data"] is! List
             ? []
             : List<BranchData>.from(
-                json["data"]!.map((x) => BranchData.fromJson(x))),
-      );
+              json["data"]!.map((x) => BranchData.fromJson(x)),
+            ),
+  );
 
   Map<String, dynamic> toJson() => {
-        "data": data == null
-            ? []
-            : List<dynamic>.from(data!.map((x) => x.toJson())),
-      };
+    "data":
+        data == null ? [] : List<dynamic>.from(data!.map((x) => x.toJson())),
+  };
 }
 
 class BranchData {
@@ -58,30 +57,30 @@ class BranchData {
   int? status;
 
   factory BranchData.fromJson(Map<String, dynamic> json) => BranchData(
-        id: json["id"],
-        name: json["name"],
-        email: json["email"],
-        phone: json["phone"],
-        latitude: json["latitude"],
-        longitude: json["longitude"],
-        city: json["city"],
-        state: json["state"],
-        zipCode: json["zip_code"],
-        address: json["address"],
-        status: json["status"],
-      );
+    id: json["id"],
+    name: json["name"],
+    email: json["email"],
+    phone: json["phone"],
+    latitude: json["latitude"],
+    longitude: json["longitude"],
+    city: json["city"],
+    state: json["state"],
+    zipCode: json["zip_code"],
+    address: json["address"],
+    status: json["status"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "email": email,
-        "phone": phone,
-        "latitude": latitude,
-        "longitude": longitude,
-        "city": city,
-        "state": state,
-        "zip_code": zipCode,
-        "address": address,
-        "status": status,
-      };
+    "id": id,
+    "name": name,
+    "email": email,
+    "phone": phone,
+    "latitude": latitude,
+    "longitude": longitude,
+    "city": city,
+    "state": state,
+    "zip_code": zipCode,
+    "address": address,
+    "status": status,
+  };
 }

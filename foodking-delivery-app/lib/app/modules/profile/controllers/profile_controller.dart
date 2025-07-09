@@ -73,7 +73,7 @@ class ProfileController extends GetxController {
 
   getPageData() async {
     var pageData = await ProfileRepo.getPages();
-    if (pageData.data!.isNotEmpty) {
+    if (pageData.data != null && pageData.data!.isNotEmpty) {
       pageDataList = pageData.data!;
       update();
     }

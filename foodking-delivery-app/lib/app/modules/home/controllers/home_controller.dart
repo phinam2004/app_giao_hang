@@ -42,10 +42,14 @@ class HomeController extends GetxController {
 
   getBranchList() async {
     var branchData = await BranchRepo.getBranch();
-    if (branchData.data!.isNotEmpty) {
+    if (branchData.data != null &&
+        branchData.data is List &&
+        branchData.data!.isNotEmpty) {
       branchDataList = branchData.data!;
-      update();
+    } else {
+      branchDataList = [];
     }
+    update();
   }
 
   void getOrderList() async {
@@ -93,12 +97,18 @@ class HomeController extends GetxController {
               final jsonResponse = json.decode(response.body);
 
               orderDetailsModel = OrderDetailsModel.fromJson(jsonResponse);
-              orderDetailsData = orderDetailsModel.data!;
-              update();
-              orderDetailsLoader = false;
-              update();
-              Get.to(() => const OrderDetailsView());
-              return orderDetailsModel;
+              if (orderDetailsModel.data != null) {
+                orderDetailsData = orderDetailsModel.data!;
+                update();
+                orderDetailsLoader = false;
+                update();
+                Get.to(() => const OrderDetailsView());
+                return orderDetailsModel;
+              } else {
+                orderDetailsLoader = false;
+                update();
+                // Có thể show thông báo lỗi ở đây nếu cần
+              }
             } else {
               orderDetailsLoader = false;
               update();
